@@ -1,0 +1,38 @@
+{
+  "name": "authorization",
+  "license": "UNLICENSED",
+  "private": true,
+  "version": "0.0.1",
+  "description": "认证服务",
+  "author": {
+    "name": "Kamas Lau",
+    "email": "kamaslau@dingtalk.com"
+  },
+  "engines": {
+    "node": "^18 || >=18"
+  },
+  "main": "dist/app.js",
+  "scripts": {
+    "db:pull": "npx prisma db pull && npx prisma generate",
+    "db:push": "npx prisma db push && npx prisma generate",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "start:dev": "cross-env nodemon"
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "@prisma/client": "^4.2.1",
+    "dotenv": "^16.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.4",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "latest",
+    "@types/koa__router": "^8.0.11",
+    "@types/node": "latest",
+    "prisma": "^4.2.1",
+    "typescript": "^4.7.4"
+  }
+}

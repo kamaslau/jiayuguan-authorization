@@ -1,0 +1,81 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("RDB_URL")
+}
+
+model author {
+  id            Int            @id @default(autoincrement()) @db.UnsignedInt
+  name          String         @db.VarChar(255)
+  time_created  DateTime       @default(now()) @db.Timestamp(0)
+  time_deleted  DateTime?      @db.DateTime(0)
+  time_updated  DateTime       @default(now()) @db.Timestamp(0)
+  creator_id    Int?           @db.UnsignedInt
+  operator_id   Int?           @db.UnsignedInt
+  name_zh_cn    String?        @db.VarChar(40)
+  nation        String         @default("中国") @db.VarChar(10)
+  itemTemplates itemTemplate[]
+}
+
+model itemTemplate {
+  id             BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
+  name           String     @db.VarChar(60)
+  time_created   DateTime   @default(now()) @db.Timestamp(0)
+  time_deleted   DateTime?  @db.DateTime(0)
+  time_updated   DateTime   @default(now()) @db.Timestamp(0)
+  creator_id     Int?       @db.UnsignedInt
+  operator_id    Int?       @db.UnsignedInt
+  barcode        BigInt?    @db.UnsignedBigInt
+  tag_price      Decimal    @default(0.00) @db.Decimal(8, 2)
+  image_main_url String?    @db.VarChar(100)
+  author_ids     String     @db.VarChar(255)
+  publisher_id   Int?       @db.UnsignedSmallInt
+  publisher      publisher? @relation(fields: [publisher_id], references: [id])
+  authors        author[]
+
+  @@index([publisher_id], map: "itemTemplate_publisher_id_fkey")
+}
+
+model publisher {
+  id            Int            @id @default(autoincrement()) @db.UnsignedSmallInt
+  name          String         @db.VarChar(40)
+  time_created  DateTime       @default(now()) @db.Timestamp(0)
+  time_deleted  DateTime?      @db.DateTime(0)
+  time_updated  DateTime       @default(now()) @db.Timestamp(0)
+  creator_id    Int?           @db.UnsignedInt
+  operator_id   Int?           @db.UnsignedInt
+  itemTemplates itemTemplate[]
+}
+
+model user {
+  id             Int          @id @default(autoincrement()) @db.UnsignedInt
+  username       String?      @unique @db.VarChar(255)
+  mobile         String?      @unique @db.VarChar(11)
+  email          String?      @unique @db.VarChar(40)
+  nickname       String?      @unique @db.VarChar(10)
+  github_login   String?      @unique @db.VarChar(255)
+  github_token   String?      @db.VarChar(255)
+  password       String?      @db.VarChar(64)
+  avatar         String?      @db.VarChar(255)
+  gender         user_gender?
+  slogan         String?      @db.VarChar(100)
+  weapp_openid   String?      @unique @db.VarChar(40)
+  weweb_openid   String?      @unique @db.VarChar(40)
+  wechat_session String?      @db.VarChar(255)
+  wechat_unionid String?      @unique @db.VarChar(40)
+  time_created   DateTime     @default(now()) @db.Timestamp(0)
+  time_deleted   DateTime?    @db.DateTime(0)
+  time_updated   DateTime     @default(now()) @db.Timestamp(0)
+  creator_id     Int?         @db.UnsignedInt
+  operator_id    Int?         @db.UnsignedInt
+}
+
+enum user_gender {
+  F
+  M
+  T
+}
