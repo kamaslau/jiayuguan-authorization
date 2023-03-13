@@ -5,8 +5,8 @@
 .pnpm-debug.log
 node_modules
 
-# Env
+# dotenv environment variables file
 .env
 
-# This project
+# build / generate output
 dist

@@ -1,7 +1,6 @@
 {
-  "name": "authorization",
-  "license": "UNLICENSED",
-  "private": true,
+  "name": "jiayuguan-authorization",
+  "license": "MIT",
   "version": "0.0.1",
   "description": "认证服务",
   "author": {
@@ -30,9 +29,9 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "latest",
-    "@types/koa__router": "^12.0.0",
+    "@types/koa": "^2.13.5",
     "@types/node": "latest",
     "prisma": "^4.11.0",
-    "typescript": "^4.9.5"
+    "typescript": "latest"
   }
 }
