@@ -3,7 +3,6 @@ import 'dotenv/config' // 载入.env环境配置文件
 import Koa from 'koa'
 import Router from '@koa/router'
 
-
 // Local
 import { initDB, consoleInit, consoleStart, briefLog } from './utils'
 import auth from './libs/auth' // 权限
@@ -17,11 +16,11 @@ const isDev = process.env.NODE_ENV !== 'production'
 // 创建Koa.js实例
 const app = new Koa()
 
-// 挂载数据库引擎（若有）
-;(async (): Promise<void> => {
-  // 关系型数据库
-  process.env.RDB_ENGINE && (app.context.db = await initDB('RDB'))
-})()
+  // 挂载数据库引擎（若有）
+  ; (async (): Promise<void> => {
+    // 关系型数据库
+    process.env.RDB_ENGINE && (app.context.db = await initDB('RDB'))
+  })()
 
 // 简易日志
 app.use(briefLog)
@@ -36,7 +35,6 @@ app.on('error', (error, ctx): void => {
 
 /**
  * RESTful
- * RESTful路由（若有）
  */
 const router = new Router()
 router.post('/', (ctx, next) => {
@@ -48,7 +46,7 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-// 兜底路由；若使用GraphQL，该路由必须晚于GraphQL的路由进行声明
+// 兜底路由
 app.use(async (ctx, next) => {
   ctx.status = 200
   ctx.body = { data: 'Hello, World!', figureURL: 'https://http.cat/200' }
@@ -59,7 +57,3 @@ const serverPort = process.env.PORT ?? 3000
 app.listen(serverPort);
 // 输出业务启动信息
 consoleStart()
-
-/**
- * 计划任务（若有）
- */
